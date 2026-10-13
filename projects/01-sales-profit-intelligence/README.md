@@ -1,89 +1,203 @@
 # Sales & Profit Intelligence
 
-**Portfolio project | Data Analytics | Python, Pandas, Matplotlib**
+**Interactive analysis of synthetic sales data using Python, pandas, Streamlit, and Plotly, with a reproducible Jupyter analysis.**
 
-## Business question
+This portfolio case study explores how product, category, and regional sales relate to revenue and calculated profit. It demonstrates data validation, metric calculation, grouped comparisons, and charting with a small synthetic dataset.
 
-Which products, categories, regions, and months contribute most to sales and profit, and where should a business investigate opportunities to improve performance?
+> **Data notice:** This is synthetic demonstration data created for this portfolio. It does not represent a real company, customer, or commercial performance.
 
-## Project goals
+## Dashboard Preview
 
-- Inspect and validate a sales dataset.
-- Calculate revenue, cost, profit, and profit margin.
-- Compare performance by product, category, region, and month.
-- Communicate findings with clear visualizations.
-- Turn the analysis into practical, evidence-based business recommendations.
+![InsightForge AI dashboard showing five KPIs and four interactive charts](assets/dashboard-overview.png)
 
-## Dataset
+## Business Problem
 
-The file `data/sales_data.csv` contains **synthetic demonstration data created for this portfolio**. It does not represent a real company or actual customer transactions. The dataset includes order dates, products, categories, regions, units sold, unit prices, unit costs, and discount rates.
+Which products, categories, regions, and months contribute most to sales and profit? Where should an analyst investigate performance differences further?
+
+The analysis provides descriptive results for this dataset. It does not establish causes or support conclusions about a real business.
+
+## Analytical Objectives
+
+- Validate the dataset for missing values, duplicate rows, and invalid numeric values.
+- Calculate gross sales, revenue after discounts, recorded product cost, calculated profit, and profit margin.
+- Compare results by product, category, and region.
+- Visualize monthly revenue and profit, and profit by product.
+- Identify follow-up questions that can be investigated with the available data.
+
+## Skills Demonstrated
+
+- Data validation and quality checks
+- Business metric calculation
+- Data analysis with pandas
+- Grouped performance comparisons
+- Reusable Python metrics and automated unit testing
+- Interactive dashboard development with Streamlit and Plotly
+- Data visualization with Matplotlib
+- Communicating findings with appropriate limitations
 
 ## Tools
 
 - Python
-- Pandas
+- pandas
 - Matplotlib
 - Jupyter Notebook
+- Streamlit
+- Plotly
 
-## Project structure
+Dependency ranges are listed in [`requirements.txt`](requirements.txt).
+
+## Dataset
+
+The dataset is [`data/sales_data.csv`](data/sales_data.csv). It contains 49 rows and eight fields:
+
+| Field | Description |
+|---|---|
+| `order_date` | Date associated with the sales record |
+| `product` | Product name |
+| `category` | Product category |
+| `region` | Sales region |
+| `units_sold` | Units sold |
+| `unit_price` | Unit price |
+| `unit_cost` | Recorded product cost per unit |
+| `discount_rate` | Discount rate applied |
+
+The dataset does not specify a currency. Monetary values are therefore reported in **dataset currency units**, without a currency symbol.
+
+## Metric Definitions
+
+- **Gross sales** = units sold × unit price
+- **Revenue after discounts** = gross sales × (1 − discount rate)
+- **Recorded product cost** = units sold × unit cost
+- **Calculated profit** = revenue after discounts − recorded product cost
+- **Profit margin** = calculated profit ÷ revenue after discounts
+
+Overall profit margin is calculated as total calculated profit divided by total revenue after discounts. Group-level margins use each group’s total calculated profit divided by its total revenue after discounts. Profit margin is not markup on cost.
+
+Monetary values are calculated with decimal precision from the CSV, without rounding individual rows. Aggregated monetary amounts are rounded to two decimal places using `ROUND_HALF_UP`. Profit margins use the unrounded aggregated profit and revenue, then are formatted to one decimal place.
+
+> **Profit limitation:** Calculated profit is revenue after discounts minus recorded product cost. The dataset excludes operating expenses, taxes, and other business costs. Therefore, this metric is not net profit and is not a complete measure of business profitability.
+
+## Key Insights
+
+- The dataset contains 49 rows and 890 units sold. Total revenue after discounts is 39,074.47 dataset currency units; recorded product cost is 22,642.90; calculated profit is 16,431.57; and overall profit margin is 42.1%.
+- **Accessories** had the highest category profit: 7,402.83, with a 50.3% margin.
+- **North** had the highest regional profit: 4,560.56.
+- **Monitor 24in** had the highest product profit: 3,509.75, with a 30.0% margin.
+- Total profit contribution and profit margin are different measures: **Notebook Pack** had a 63.0% product margin and 1,577.63 calculated profit.
+
+These are findings from synthetic data only. They should not be interpreted as evidence about real products, regions, customers, or market conditions.
+
+## Interpretation and Follow-Up Questions
+
+The results illustrate why profit contribution and profit margin should be considered separately. Monitor 24in leads product profit in this dataset, while Notebook Pack has a higher margin but lower total profit.
+
+Possible follow-up questions include:
+
+- What factors in the records contribute to differences between product profit and margin?
+- How do product mix and sales volume relate to the observed regional results?
+- How are discount rates associated with calculated profit and margin across products?
+
+The current analysis does not answer the discount question or establish causation. Any discount relationship would require further analysis and should be described as an association, not a causal effect.
+
+## Chart Previews
+
+The two analysis charts are embedded in the executed notebook. A dashboard overview screenshot is available at [`assets/dashboard-overview.png`](assets/dashboard-overview.png); standalone image exports of the individual charts are not currently present. Open [`reports/sales_profit_analysis_executed.ipynb`](reports/sales_profit_analysis_executed.ipynb) to view the saved chart outputs:
+
+- Monthly Revenue and Calculated Profit
+- Calculated Profit by Product
+
+## Project Structure
 
 ```text
 01-sales-profit-intelligence/
-├── README.md
-├── data/
-│   └── sales_data.csv
-├── notebooks/
-│   └── sales_profit_analysis.ipynb
-├── reports/
-│   └── initial_findings.md
-└── requirements.txt
+|-- README.md
+|-- requirements.txt
+|-- app.py
+|-- run_analysis.bat
+|-- assets/
+|   |-- dashboard-overview.png
+|-- data/
+|   |-- sales_data.csv
+|-- notebooks/
+|   |-- sales_profit_analysis.ipynb
+|-- reports/
+|   |-- initial_findings.md
+|   |-- sales_profit_analysis_executed.ipynb
+|-- src/
+|   |-- sales_profit_metrics.py
+|-- tests/
+    |-- test_sales_profit_metrics.py
 ```
 
-## How to run
+- [`notebooks/sales_profit_analysis.ipynb`](notebooks/sales_profit_analysis.ipynb) contains the analysis source.
+- [`reports/sales_profit_analysis_executed.ipynb`](reports/sales_profit_analysis_executed.ipynb) contains saved outputs and chart previews.
+- [`reports/initial_findings.md`](reports/initial_findings.md) is a findings-report template.
+- [`run_analysis.bat`](run_analysis.bat) runs the source notebook with `nbconvert` and writes an executed notebook to `reports/sales_profit_analysis_executed.ipynb`. Running it may replace the existing executed notebook.
 
-From this project directory:
+## Interactive Dashboard
 
-1. Create and activate a Python virtual environment (recommended).
-2. Install dependencies:
+Run the dashboard from the project root after installing the dependencies:
 
-   ```bash
-   python -m pip install -r requirements.txt
-   ```
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r .\requirements.txt
+streamlit run app.py
+```
 
-3. Start Jupyter:
+The dashboard provides product, category, region, and order-date filters. All KPIs and interactive charts respond to the selected records. It uses the validated calculations in `src/sales_profit_metrics.py` and follows the documented Decimal and `ROUND_HALF_UP` reporting policy. The data is synthetic, and calculated profit excludes operating expenses, taxes, and other business costs; it is not net profit.
 
-   ```bash
-   jupyter notebook notebooks/sales_profit_analysis.ipynb
-   ```
+## Installation and Execution
 
-4. Run the notebook cells from top to bottom.
+### Windows PowerShell
 
-The notebook reads the CSV using a relative path, so the project can be cloned to another computer.
+Start from the project root directory:
 
-## Key metrics
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r .\requirements.txt
+Set-Location .\notebooks
+jupyter notebook sales_profit_analysis.ipynb
+```
 
-- **Gross sales before discount** = units sold × unit price
-- **Revenue after discount** = gross sales × (1 − discount rate)
-- **Cost** = units sold × unit cost
-- **Profit** = revenue after discount − cost
-- **Profit margin** = profit ÷ revenue after discount
+### macOS or Linux
 
-The margin is shown as a percentage and is not the same as a markup on cost.
+Start from the project root directory:
 
-## Quality and limitations
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+cd notebooks
+jupyter notebook sales_profit_analysis.ipynb
+```
 
-- The dataset is synthetic and designed for learning and demonstration.
-- The analysis does not claim to measure the performance of a real business.
-- The findings report should be updated after running the notebook; conclusions must be supported by calculated results rather than assumed in advance.
-- This is a portfolio case study, not financial or investment advice.
+Starting Jupyter from the `notebooks/` directory lets the notebook locate the project’s `src/` module. The `load_sales_data()` function resolves `data/sales_data.csv` relative to the metrics module, independently of the kernel’s working directory. Run the notebook cells from top to bottom.
 
-## Next improvements
+The Windows batch script is an alternative execution method, but it writes to the existing executed-notebook path described above. Preserve that file before running the script if its saved outputs need to be retained.
 
-- Add automated data-quality checks and tests.
-- Add SQL queries for the same business questions.
-- Build a Power BI dashboard from the cleaned dataset.
-- Add screenshots of the completed dashboard and a concise executive summary.
+## Running the Metric Tests
 
----
+From the project root in Windows PowerShell, activate the project virtual environment and run the existing test suite. This assumes the environment and dependencies have been set up using the installation instructions above.
 
-*Created as a data analytics portfolio case study.*
+```powershell
+.\.venv\Scripts\Activate.ps1
+python -B -m unittest discover -s tests -v
+```
+
+## Limitations
+
+- The data is synthetic, small, and intended for demonstration.
+- No currency is specified.
+- Calculated profit subtracts only recorded product cost; operating expenses, taxes, and other business costs are excluded. It is not net profit or a complete measure of business profitability.
+- The analysis is descriptive and does not establish causation.
+- The current notebook raises discount impact as a follow-up question; it does not quantify a discount effect.
+- The findings should not be presented as actual company or customer performance.
+
+## Future Improvements
+
+- Add a clearly documented discount analysis, while distinguishing association from causation.
+- Add standalone chart exports for README previews.
+- Expand dashboard documentation with usage examples and data-flow details as the project evolves.
+- Keep generated outputs distinct from source files to reduce the risk of overwriting saved results.
