@@ -39,3 +39,10 @@ jobs:
         run: |
           mkdir -p /tmp/insightforge-notebook
           python -m jupyter nbconvert --to notebook --execute notebooks/sales_profit_analysis.ipynb --output sales_profit_analysis_executed.ipynb --output-dir /tmp/insightforge-notebook
+      - name: Upload freshly executed notebook
+        uses: actions/upload-artifact@v4
+        with:
+          name: sales-profit-analysis-executed
+          path: /tmp/insightforge-notebook/sales_profit_analysis_executed.ipynb
+          if-no-files-found: error
+          retention-days: 14
