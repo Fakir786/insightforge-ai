@@ -1,0 +1,48 @@
+name: Sales Profit Intelligence Quality Checks
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "projects/01-sales-profit-intelligence/**"
+      - ".github/workflows/sales-profit-tests.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  quality-checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: projects/01-sales-profit-intelligence
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: projects/01-sales-profit-intelligence/requirements.txt
+      - name: Install project dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+      - name: Check Python syntax
+        run: python -m compileall -q app.py src tests
+      - name: Run automated unit and dashboard smoke tests
+        run: python -B -m unittest discover -s tests -v
+      - name: Execute source notebook
+        run: |
+          mkdir -p /tmp/insightforge-notebook
+          python -m jupyter nbconvert --to notebook --execute notebooks/sales_profit_analysis.ipynb --output sales_profit_analysis_executed.ipynb --output-dir /tmp/insightforge-notebook
+      - name: Upload freshly executed notebook
+        uses: actions/upload-artifact@v4
+        with:
+          name: sales-profit-analysis-executed
+          path: /tmp/insightforge-notebook/sales_profit_analysis_executed.ipynb
+          if-no-files-found: error
+          retention-days: 14
