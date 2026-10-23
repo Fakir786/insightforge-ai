@@ -125,6 +125,10 @@ The two analysis charts are embedded in the executed notebook. A dashboard overv
 |   |-- sales_profit_analysis_executed.ipynb
 |-- src/
 |   |-- sales_profit_metrics.py
+|-- web/
+|   |-- index.html
+|   |-- styles.css
+|   |-- app.js
 |-- tests/
     |-- test_sales_profit_metrics.py
 ```
@@ -146,6 +150,19 @@ streamlit run app.py
 ```
 
 The dashboard provides product, category, region, and order-date filters. All KPIs and interactive charts respond to the selected records. It uses the validated calculations in `src/sales_profit_metrics.py` and follows the documented Decimal and `ROUND_HALF_UP` reporting policy. The data is synthetic, and calculated profit excludes operating expenses, taxes, and other business costs; it is not net profit.
+
+## Static web dashboard
+
+The static portfolio dashboard is available in [`web/index.html`](web/index.html). It reads the existing [`data/sales_data.csv`](data/sales_data.csv) in the browser. Date, category, region, and product filters update the KPIs, charts, and descriptive insights together; **Reset** restores the full sample. Monetary calculations use exact decimal arithmetic and round displayed amounts to two decimal places with the Python metrics module's `ROUND_HALF_UP` policy. Profit margin is calculated from aggregate profit divided by aggregate revenue.
+
+The data is synthetic, does not specify a currency, and is displayed without a currency symbol. Calculated profit subtracts recorded product cost only; operating expenses and taxes are excluded. The insights describe this sample and do not establish causes.
+
+### Preview and GitHub Pages
+
+For a local preview, run `python -m http.server 8000` from the repository root, then open <http://localhost:8000/projects/01-sales-profit-intelligence/web/>. The dashboard fetches the CSV from its relative path; opening the HTML file directly may prevent that request.
+
+When GitHub Pages publishes the repository root from `main`, open `/projects/01-sales-profit-intelligence/web/` on the project site's URL. Chart.js 4.6.1 is loaded from jsDelivr under the MIT license, and the page uses Google Fonts; those visual resources require an internet connection. The static page has no backend or build step.
+
 
 ## Installation and Execution
 

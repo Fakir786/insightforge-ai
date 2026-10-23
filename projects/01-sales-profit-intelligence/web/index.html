@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Interactive executive overview of synthetic sales revenue and calculated profit.">
+  <title>Sales &amp; Profit Intelligence | InsightForge AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.6.1/dist/chart.umd.min.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="masthead">
+      <div class="brand-mark" aria-hidden="true">IF</div>
+      <div class="brand-copy">
+        <p class="eyebrow">InsightForge AI <span>·</span> Portfolio analytics</p>
+        <h1>Sales &amp; Profit Intelligence</h1>
+        <p class="subtitle">A clear view of revenue, calculated profit, and performance mix.</p>
+      </div>
+      <div class="period-badge"><span class="live-dot"></span><span id="periodLabel">Loading reporting period</span></div>
+    </header>
+
+    <section class="filter-bar" aria-label="Dashboard filters">
+      <div class="filter-heading">
+        <span class="filter-icon" aria-hidden="true">≡</span>
+        <span>Filter view</span>
+      </div>
+      <div class="date-controls">
+        <label class="date-field"><span>From</span><input id="startDate" type="date" aria-label="Start date"></label>
+        <span class="date-separator" aria-hidden="true">to</span>
+        <label class="date-field"><span>To</span><input id="endDate" type="date" aria-label="End date"></label>
+      </div>
+      <details class="filter-menu" id="categoryFilter">
+        <summary><span class="filter-caption">Category</span><span class="filter-value">All categories</span><span class="chevron" aria-hidden="true"></span></summary>
+        <div class="filter-options" id="categoryOptions"></div>
+      </details>
+      <details class="filter-menu" id="regionFilter">
+        <summary><span class="filter-caption">Region</span><span class="filter-value">All regions</span><span class="chevron" aria-hidden="true"></span></summary>
+        <div class="filter-options" id="regionOptions"></div>
+      </details>
+      <details class="filter-menu" id="productFilter">
+        <summary><span class="filter-caption">Product</span><span class="filter-value">All products</span><span class="chevron" aria-hidden="true"></span></summary>
+        <div class="filter-options" id="productOptions"></div>
+      </details>
+      <button class="reset-button" id="resetFilters" type="button"><span aria-hidden="true">↺</span> Reset</button>
+    </section>
+
+    <div class="notice-row">
+      <p class="data-notice"><span class="notice-icon" aria-hidden="true">i</span><span><strong>Synthetic demonstration data.</strong> Calculated profit is revenue after discounts less recorded product cost; operating expenses and taxes are excluded. Amounts are shown in dataset units; no currency is specified.</span></p>
+      <p id="recordStatus" class="record-status" aria-live="polite">Loading validated sales records…</p>
+    </div>
+
+    <div id="loadError" class="load-error" role="alert" hidden></div>
+
+    <main id="dashboard" hidden>
+      <section class="kpi-grid" aria-label="Key performance indicators">
+        <article class="kpi-card kpi-primary"><div class="kpi-label"><span class="kpi-dot revenue-dot"></span>Revenue after discounts</div><div class="kpi-value" id="kpiRevenue">—</div><div class="kpi-foot">Sales value after recorded discounts</div></article>
+        <article class="kpi-card"><div class="kpi-label"><span class="kpi-dot profit-dot"></span>Calculated profit</div><div class="kpi-value" id="kpiProfit">—</div><div class="kpi-foot">Revenue less recorded product cost</div></article>
+        <article class="kpi-card"><div class="kpi-label"><span class="kpi-dot margin-dot"></span>Profit margin</div><div class="kpi-value" id="kpiMargin">—</div><div class="kpi-foot">Aggregate profit ÷ aggregate revenue</div></article>
+        <article class="kpi-card"><div class="kpi-label"><span class="kpi-dot units-dot"></span>Units sold</div><div class="kpi-value" id="kpiUnits">—</div><div class="kpi-foot">Across selected sales records</div></article>
+        <article class="kpi-card"><div class="kpi-label"><span class="kpi-dot records-dot"></span>Sales records</div><div class="kpi-value" id="kpiRecords">—</div><div class="kpi-foot">Rows matching current filters</div></article>
+      </section>
+
+      <section class="chart-grid" aria-label="Sales analysis charts">
+        <article class="chart-card chart-wide">
+          <div class="chart-heading"><div><p class="chart-kicker">Performance over time</p><h2>Monthly revenue &amp; profit</h2></div><span class="chart-unit">Dataset units</span></div>
+          <div class="chart-wrap"><canvas id="trendChart" role="img" aria-label="Monthly revenue and calculated profit trend"></canvas><p class="chart-empty" hidden>No records for the selected filters.</p></div>
+        </article>
+        <article class="chart-card">
+          <div class="chart-heading"><div><p class="chart-kicker">Product mix</p><h2>Calculated profit by product</h2></div><span class="chart-unit">Dataset units</span></div>
+          <div class="chart-wrap"><canvas id="productChart" role="img" aria-label="Calculated profit comparison by product"></canvas><p class="chart-empty" hidden>No records for the selected filters.</p></div>
+        </article>
+        <article class="chart-card">
+          <div class="chart-heading"><div><p class="chart-kicker">Category comparison</p><h2>Revenue &amp; profit by category</h2></div><span class="chart-unit">Dataset units</span></div>
+          <div class="chart-wrap"><canvas id="categoryChart" role="img" aria-label="Revenue and calculated profit by category"></canvas><p class="chart-empty" hidden>No records for the selected filters.</p></div>
+        </article>
+        <article class="chart-card">
+          <div class="chart-heading"><div><p class="chart-kicker">Regional comparison</p><h2>Revenue &amp; profit by region</h2></div><span class="chart-unit">Dataset units</span></div>
+          <div class="chart-wrap"><canvas id="regionChart" role="img" aria-label="Revenue and calculated profit by region"></canvas><p class="chart-empty" hidden>No records for the selected filters.</p></div>
+        </article>
+      </section>
+
+      <section class="insights-section" aria-labelledby="insightsTitle">
+        <div class="insights-heading"><div><p class="chart-kicker">Current selection</p><h2 id="insightsTitle">Signals in the data</h2></div><p class="insight-context">Descriptive results only · no causal conclusions</p></div>
+        <div id="insightsGrid" class="insights-grid" aria-live="polite"></div>
+      </section>
+      <p id="chartError" class="chart-error" role="status" hidden>Charts could not load because the Chart.js CDN is unavailable. KPI values and filters remain available.</p>
+    </main>
+
+    <footer class="page-footer"><span>Source: <code>data/sales_data.csv</code></span><span>Margin is calculated from aggregate totals, not averaged from record margins.</span></footer>
+  </div>
+</body>
+</html>
