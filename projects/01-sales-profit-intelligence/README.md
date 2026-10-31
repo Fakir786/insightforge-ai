@@ -82,7 +82,7 @@ Monetary values are calculated with decimal precision from the CSV, without roun
 - The dataset contains 49 rows and 890 units sold. Total revenue after discounts is 39,074.47 dataset currency units; recorded product cost is 22,642.90; calculated profit is 16,431.57; and overall profit margin is 42.1%.
 - **Accessories** had the highest category profit: 7,402.83, with a 50.3% margin.
 - **North** had the highest regional profit: 4,560.56.
-- **Monitor 24in** had the highest product profit: 3,509.75, with a 30.0% margin.
+- **Monitor 24in** had the highest product profit: 3,509.75, with a 29.6% margin.
 - Total profit contribution and profit margin are different measures: **Notebook Pack** had a 63.0% product margin and 1,577.63 calculated profit.
 
 These are findings from synthetic data only. They should not be interpreted as evidence about real products, regions, customers, or market conditions.
