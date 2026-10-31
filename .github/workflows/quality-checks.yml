@@ -29,6 +29,9 @@ jobs:
       - name: Install test dependency
         run: python -m pip install "pandas>=2.0,<3.0"
 
+      - name: Compile Python source files
+        run: python -m compileall -q projects/01-sales-profit-intelligence
+
       - name: Run sales metric unit tests
         working-directory: projects/01-sales-profit-intelligence
         run: python -B -m unittest discover -s tests -v
