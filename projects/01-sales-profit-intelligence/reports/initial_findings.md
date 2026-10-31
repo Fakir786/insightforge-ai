@@ -1,56 +1,127 @@
-# Initial Findings Report
+# Sales & Profit Intelligence — Findings Report
 
-**Project:** Sales & Profit Intelligence  
-**Dataset:** Synthetic demonstration data created for this portfolio  
-**Status:** Initial report template — run the notebook before publishing numerical findings
+**Dataset:** Synthetic sales demonstration data  
+**Reporting period:** January–December 2025  
+**Records analyzed:** 49  
+**Status:** Completed descriptive analysis
 
 ## Executive summary
 
-This case study demonstrates how an analyst can turn transactional sales data into revenue, cost, profit, and profit-margin metrics. The dataset is synthetic; therefore, the analysis is a demonstration of methods and should not be presented as evidence about a real business.
+This case study analyzes a small synthetic sales dataset to demonstrate data validation, business metric calculation, grouped performance analysis, and dashboard reporting. The records contain 890 units sold and 39,074.47 in revenue after discounts. After subtracting 22,642.90 in recorded product cost, calculated profit is 16,431.57, giving an aggregate profit margin of 42.1%.
 
-## Questions addressed
+These figures describe only the supplied demonstration dataset. They are not actual company results and should not be used as evidence of commercial performance.
 
-1. Which products generate the most total profit?
-2. Which categories and regions contribute most to profit?
-3. How do revenue and profit change month by month?
-4. How might discounts relate to profitability?
+## Method and metric definitions
 
-## Metrics
+- **Gross sales** = units sold × unit price
+- **Revenue after discounts** = gross sales × (1 − discount rate)
+- **Recorded product cost** = units sold × unit cost
+- **Calculated profit** = revenue after discounts − recorded product cost
+- **Profit margin** = calculated profit ÷ revenue after discounts
 
-- **Revenue:** units sold × unit price × (1 − discount rate)
-- **Cost:** units sold × unit cost
-- **Profit:** revenue − cost
-- **Profit margin:** profit ÷ revenue
+Monetary calculations use decimal values from the CSV without rounding individual records. Aggregated monetary values are rounded to two decimal places using `ROUND_HALF_UP`. Overall and group margins use aggregate profit divided by aggregate revenue.
 
-## Results
+## Data quality and scope
 
-Run `notebooks/sales_profit_analysis.ipynb` from top to bottom and use its tables and charts to fill in this section. Do not copy in estimated or invented figures.
+- 49 sales records and 8 required columns were analyzed.
+- The dataset contains 890 units sold.
+- The source dataset is synthetic and does not represent a real company, customer, or market.
+- No currency is specified; amounts are therefore reported in dataset currency units.
+- Calculated profit subtracts recorded product cost only. Operating expenses, taxes, and other business costs are excluded, so this is not net profit.
+- The analysis is descriptive and does not establish causation.
 
-| Question | Evidence to record | Business interpretation |
-|---|---|---|
-| Most profitable product | Product name and calculated profit | Check whether profit is driven by volume, price, or cost |
-| Most profitable category | Category and calculated profit | Compare category contribution and margin |
-| Regional performance | Revenue, profit, and margin by region | Identify areas for further investigation |
-| Monthly trend | Monthly revenue and profit chart | Investigate unusual changes before drawing conclusions |
-| Discount impact | Compare discount levels and profit margin | Treat this as an association, not proof of causation |
+## Overall results
 
-## Recommendations framework
+| Measure | Result |
+|---|---:|
+| Sales records | 49 |
+| Units sold | 890 |
+| Revenue after discounts | 39,074.47 |
+| Recorded product cost | 22,642.90 |
+| Calculated profit | 16,431.57 |
+| Aggregate profit margin | 42.1% |
 
-After reviewing the actual notebook output, recommendations may include:
-- Investigating products with high sales but weak margins.
-- Reviewing pricing and discount rules where profitability is lower.
-- Comparing regional results while accounting for product mix.
-- Monitoring monthly indicators using a repeatable dashboard.
+## Findings by business question
 
-Only include a recommendation if the calculated results support it. State assumptions and limitations.
+### 1. Which products generate the most calculated profit?
 
-## Limitations
+| Product | Revenue after discounts | Calculated profit | Profit margin |
+|---|---:|---:|---:|
+| Monitor 24in | 11,858.75 | 3,509.75 | 29.6% |
+| USB-C Hub | 5,242.69 | 2,677.69 | 51.1% |
+| Office Chair | 7,278.65 | 2,586.65 | 35.5% |
+| Wireless Mouse | 4,358.26 | 2,468.26 | 56.6% |
+| Mechanical Keyboard | 5,112.88 | 2,256.88 | 44.1% |
+| Notebook Pack | 2,504.53 | 1,577.63 | 63.0% |
+| Desk Lamp | 2,718.72 | 1,354.72 | 49.8% |
 
-- The records are synthetic and are not representative of a real business.
-- The sample is small and designed for portfolio demonstration.
-- No causal relationship can be established from these records.
-- No currency is specified; amounts are described as dataset currency units.
+**Finding:** Monitor 24in has the highest total calculated profit (3,509.75), but also the lowest product margin (29.6%). Notebook Pack has the highest product margin (63.0%) but lower total calculated profit (1,577.63). This illustrates the difference between profit contribution and margin.
+
+### 2. Which categories contribute most to calculated profit?
+
+| Category | Revenue after discounts | Calculated profit | Profit margin |
+|---|---:|---:|---:|
+| Accessories | 14,713.83 | 7,402.83 | 50.3% |
+| Furniture | 9,997.37 | 3,941.37 | 39.4% |
+| Electronics | 11,858.75 | 3,509.75 | 29.6% |
+| Stationery | 2,504.53 | 1,577.63 | 63.0% |
+
+**Finding:** Accessories contributes the highest calculated profit (7,402.83). Stationery has the highest category margin (63.0%), while contributing less total profit because its revenue base is smaller.
+
+### 3. How do regions compare?
+
+| Region | Revenue after discounts | Calculated profit | Profit margin |
+|---|---:|---:|---:|
+| North | 10,909.36 | 4,560.56 | 41.8% |
+| South | 9,837.13 | 4,264.63 | 43.4% |
+| East | 10,050.64 | 3,997.14 | 39.8% |
+| West | 8,277.34 | 3,609.24 | 43.6% |
+
+**Finding:** North has the highest calculated profit (4,560.56). West has the highest regional margin (43.6%), narrowly ahead of South (43.4%). Differences in product mix and sales volume may contribute to these results, but this dataset does not establish the causes.
+
+### 4. What happened across the months?
+
+- **December 2025** recorded the highest monthly revenue (6,733.91) and calculated profit (2,705.91).
+- **February 2025** recorded the lowest monthly calculated profit (783.11).
+- **April 2025** recorded the highest monthly profit margin (47.6%).
+
+The monthly results are descriptive. The available records do not explain why performance differs between months.
+
+### 5. What is the relationship between discounts and profitability?
+
+A discount-impact analysis has not been performed in this report. The current results do not establish whether discounts increase or reduce profit. A separate analysis would need to compare discount rates with revenue, calculated profit, and margin while accounting for product and sales mix. Any observed relationship should be described as an association, not a causal effect.
+
+## Business interpretation and follow-up work
+
+The dataset demonstrates why decision-makers should review total profit and profit margin together:
+
+- Review the cost and pricing structure of Monitor 24in because it contributes the highest total profit but has the lowest product margin in this sample.
+- Examine whether Notebook Pack's high margin can be sustained at its observed sales volume.
+- Investigate the product mix behind regional differences before attributing performance to a region itself.
+- Explore monthly changes with additional context before proposing operational explanations.
+- Conduct a separate discount analysis before making discount-policy recommendations.
+
+These are investigation priorities for the demonstration dataset, not operational recommendations for a real business.
 
 ## Reproducibility
 
-Install dependencies with `python -m pip install -r requirements.txt`, then run the notebook. Update this report only after checking the resulting tables and charts.
+The analysis can be reproduced from the project source:
+
+1. Install dependencies listed in `requirements.txt`.
+2. Run `notebooks/sales_profit_analysis.ipynb` from the documented project setup.
+3. Run the automated metric tests with:
+
+```powershell
+python -B -m unittest discover -s tests -v
+```
+
+The reusable calculations are implemented in `src/sales_profit_metrics.py`. The interactive dashboards are documented in the project README.
+
+## Limitations
+
+- The dataset is synthetic and contains only 49 records.
+- The dataset does not identify a currency.
+- Calculated profit excludes operating expenses, taxes, and other business costs; it is not net profit.
+- The analysis is descriptive and does not establish causation.
+- Discount impact has not been quantified.
+- Results should not be represented as actual company or customer performance.
