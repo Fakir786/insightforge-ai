@@ -135,7 +135,7 @@ The two analysis charts are embedded in the executed notebook. A dashboard overv
 
 - [`notebooks/sales_profit_analysis.ipynb`](notebooks/sales_profit_analysis.ipynb) contains the analysis source.
 - [`reports/sales_profit_analysis_executed.ipynb`](reports/sales_profit_analysis_executed.ipynb) contains saved outputs and chart previews.
-- [`reports/initial_findings.md`](reports/initial_findings.md) is a findings-report template.
+- [`reports/initial_findings.md`](reports/initial_findings.md) contains the completed descriptive findings report.
 - [`run_analysis.bat`](run_analysis.bat) runs the source notebook with `nbconvert` and writes an executed notebook to `reports/sales_profit_analysis_executed.ipynb`. Running it may replace the existing executed notebook.
 
 ## Interactive Dashboard
