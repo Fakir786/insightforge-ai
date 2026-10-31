@@ -120,7 +120,7 @@ if filtered.empty:
 summary = summarize_metrics(filtered)
 metric_columns = st.columns(5)
 metric_columns[0].metric(
-    "Net Revenue",
+    "Revenue After Discounts",
     money_label(summary["revenue_after_discounts"]),
     help="Revenue after discounts, in dataset currency units.",
 )
@@ -144,8 +144,8 @@ with left:
     trend = go.Figure()
     trend.add_trace(go.Scatter(
         x=monthly["month"], y=monthly["revenue_after_discounts"],
-        mode="lines+markers", name="Net Revenue",
-        hovertemplate="%{x}<br>Net Revenue: %{y:,.2f}<extra></extra>",
+        mode="lines+markers", name="Revenue After Discounts",
+        hovertemplate="%{x}<br>Revenue After Discounts: %{y:,.2f}<extra></extra>",
     ))
     trend.add_trace(go.Scatter(
         x=monthly["month"], y=monthly["calculated_profit"],
@@ -178,7 +178,7 @@ with right:
         labels={
             "calculated_profit": "Calculated Profit",
             "product": "Product",
-            "revenue_after_discounts": "Net Revenue",
+            "revenue_after_discounts": "Revenue After Discounts",
             "profit_margin_percent": "Profit Margin",
         },
         hover_data={"revenue_after_discounts": ":,.2f", "profit_margin_percent": ":.1f"},
@@ -199,7 +199,7 @@ with left:
         var_name="Metric", value_name="Dataset currency units",
     )
     category_long["Metric"] = category_long["Metric"].map({
-        "revenue_after_discounts": "Net Revenue",
+        "revenue_after_discounts": "Revenue After Discounts",
         "calculated_profit": "Calculated Profit",
     })
     category_chart = px.bar(
@@ -219,7 +219,7 @@ with right:
         var_name="Metric", value_name="Dataset currency units",
     )
     region_long["Metric"] = region_long["Metric"].map({
-        "revenue_after_discounts": "Net Revenue",
+        "revenue_after_discounts": "Revenue After Discounts",
         "calculated_profit": "Calculated Profit",
     })
     region_chart = px.bar(
@@ -233,10 +233,10 @@ with right:
 
 with st.expander("Metric Definitions and Methodology"):
     st.markdown(
-        "- **Net Revenue** = units sold × unit price × (1 − discount rate)\n"
+        "- **Revenue After Discounts** = units sold × unit price × (1 − discount rate)\n"
         "- **Recorded Product Cost** = units sold × unit cost\n"
-        "- **Calculated Profit** = Net Revenue − Recorded Product Cost\n"
-        "- **Profit Margin** = Calculated Profit ÷ Net Revenue\n\n"
+        "- **Calculated Profit** = Revenue After Discounts − Recorded Product Cost\n"
+        "- **Profit Margin** = Calculated Profit ÷ Revenue After Discounts\n\n"
         "The shared metrics module aggregates exact decimal values without row-level rounding. "
         "Displayed monetary amounts use `ROUND_HALF_UP` to two decimal places; margins use "
         "unrounded aggregate values and are formatted to one decimal place."
