@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A free, browser-based CSV and Excel data cleaning tool. Files are processed locally.">
+  <title>Data Cleaning Studio | InsightForge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <a class="brand" href="../index.html" aria-label="InsightForge home"><span class="brand-icon">IF</span><span>INSIGHTFORGE <small>DATA TOOLS</small></span></a>
+      <span class="privacy"><span></span> Files stay on your device</span>
+    </header>
+
+    <main>
+      <section class="intro">
+        <p class="eyebrow">FREE DATA PREPARATION TOOL</p>
+        <h1>Data Cleaning Studio</h1>
+        <p class="lead">Upload a CSV or Excel file, inspect data quality, clean your dataset, and export the result.</p>
+      </section>
+
+      <section class="upload-panel" id="dropZone">
+        <div class="upload-symbol" aria-hidden="true">↑</div>
+        <h2>Upload your dataset</h2>
+        <p>Drag and drop a file here, or choose it from your device.</p>
+        <label class="file-button" for="fileInput">Choose CSV or Excel file</label>
+        <input id="fileInput" type="file" accept=".csv,.xlsx,.xls,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel">
+        <p class="file-hint">Supported formats: CSV, XLSX, XLS · Maximum file size: 20 MB</p>
+        <p class="privacy-note">Your file is processed locally in this browser. It is not uploaded to our server.</p>
+      </section>
+
+      <section id="workspace" hidden>
+        <div class="file-line">
+          <div><span class="eyebrow">CURRENT DATASET</span><h2 id="fileName">—</h2><p id="fileMeta" class="muted"></p></div>
+          <button id="newFile" class="button button-light" type="button">Choose another file</button>
+        </div>
+
+        <div class="metric-grid" aria-label="Dataset quality summary">
+          <article class="metric"><span>Total rows</span><strong id="rowCount">0</strong></article>
+          <article class="metric"><span>Columns</span><strong id="columnCount">0</strong></article>
+          <article class="metric"><span>Duplicate rows</span><strong id="duplicateCount">0</strong></article>
+          <article class="metric"><span>Empty cells</span><strong id="emptyCount">0</strong></article>
+        </div>
+
+        <section class="panel">
+          <div class="panel-heading"><div><p class="eyebrow">DATA QUALITY</p><h2>Cleaning options</h2><p class="muted">Select the actions you want to apply. The original file remains unchanged.</p></div></div>
+          <div class="clean-options">
+            <label class="option"><input type="checkbox" id="trimWhitespace" checked><span><b>Trim extra spaces</b><small>Remove spaces at the beginning and end of text cells.</small></span></label>
+            <label class="option"><input type="checkbox" id="removeEmptyRows" checked><span><b>Remove completely empty rows</b><small>Delete rows where every cell is blank.</small></span></label>
+            <label class="option"><input type="checkbox" id="removeDuplicates"><span><b>Remove duplicate rows</b><small>Keep the first occurrence of each identical row.</small></span></label>
+            <label class="option"><input type="checkbox" id="removeEmptyColumns"><span><b>Remove completely empty columns</b><small>Delete columns that contain no values.</small></span></label>
+          </div>
+          <div class="actions">
+            <button id="applyCleaning" class="button button-primary" type="button">Apply cleaning</button>
+            <button id="resetData" class="button button-light" type="button">Reset to original</button>
+            <span id="actionStatus" class="status" role="status" aria-live="polite"></span>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="table-heading">
+            <div><p class="eyebrow">DATA PREVIEW</p><h2>Organized dataset</h2><p id="previewMeta" class="muted"></p></div>
+            <div class="table-actions"><input id="tableSearch" type="search" placeholder="Search all columns…" aria-label="Search table"><button id="downloadCsv" class="button button-light" type="button">Download CSV</button><button id="downloadExcel" class="button button-primary" type="button">Download Excel</button></div>
+          </div>
+          <div class="table-wrap"><table><thead id="tableHead"></thead><tbody id="tableBody"></tbody></table></div>
+          <div class="pagination"><button id="previousPage" class="button button-light" type="button">Previous</button><span id="pageInfo" class="muted">Page 1</span><button id="nextPage" class="button button-light" type="button">Next</button></div>
+        </section>
+      </section>
+
+      <div id="errorBox" class="error" role="alert" hidden></div>
+      <section class="how-it-works"><h2>How it works</h2><div class="steps"><article><b>01</b><h3>Upload</h3><p>Select a CSV or Excel spreadsheet from your device.</p></article><article><b>02</b><h3>Inspect</h3><p>Review row counts, columns, duplicates, and empty cells.</p></article><article><b>03</b><h3>Clean & export</h3><p>Choose cleaning actions and download your updated dataset.</p></article></div></section>
+    </main>
+    <footer><span>InsightForge · Data Cleaning Studio</span><span>Local browser processing · No account required</span></footer>
+  </div>
+</body>
+</html>
