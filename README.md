@@ -16,7 +16,7 @@ An end-to-end sales analysis case study exploring revenue, product costs, calcul
   </a>
 </p>
 
-**[Open the interactive dashboard](https://fakir786.github.io/insightforge-ai/projects/01-sales-profit-intelligence/web/)** · **[Read the project documentation](projects/01-sales-profit-intelligence/README.md)**
+**[Open the interactive dashboard](https://fakir786.github.io/insightforge-ai/projects/01-sales-profit-intelligence/web/)** · **[Read the project documentation](projects/01-sales-profit-intelligence/README.md)** · **[Try the Data Cleaning Studio](https://fakir786.github.io/insightforge-ai/projects/01-sales-profit-intelligence/web/data-cleaning-studio/)**
 
 **What this project demonstrates**
 - Data validation and quality checks with Python
