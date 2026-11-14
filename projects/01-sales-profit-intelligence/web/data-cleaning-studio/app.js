@@ -4,7 +4,7 @@
   const MAX_FILE_BYTES = 20 * 1024 * 1024;
   const PAGE_SIZE = 25;
   const $ = (id) => document.getElementById(id);
-  const state = { headers: [], original: [], rows: [], fileName: "", page: 1, sheetName: "" };
+  const state = { headers: [], originalHeaders: [], original: [], rows: [], fileName: "", page: 1, sheetName: "" };
   const ui = {
     dropZone: $("dropZone"), fileInput: $("fileInput"), workspace: $("workspace"),
     errorBox: $("errorBox"), fileName: $("fileName"), fileMeta: $("fileMeta"),
@@ -138,7 +138,8 @@
     try {
       const parsed = extension === "csv" ? await parseCsvFile(file) : await parseExcelFile(file);
       if (!parsed.headers.length) throw new Error("No columns were found in this file.");
-      state.headers = parsed.headers;
+      state.headers = parsed.headers.slice();
+      state.originalHeaders = parsed.headers.slice();
       state.original = parsed.rows.map((row) => row.slice());
       state.rows = parsed.rows.map((row) => row.slice());
       state.fileName = file.name;
@@ -187,7 +188,7 @@
 
   function resetData() {
     state.rows = state.original.map((row) => row.slice());
-    state.headers = state.headers.length ? state.headers : [];
+    state.headers = state.originalHeaders.slice();
     state.page = 1;
     ui.tableSearch.value = "";
     ui.actionStatus.textContent = "Restored the original imported data.";
