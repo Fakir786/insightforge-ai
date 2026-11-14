@@ -199,7 +199,7 @@
 
   function safeSpreadsheetValue(value) {
     const text = cellText(value);
-    return /^[\s]*[=+@]|^[\s]*-[^0-9.]/.test(text) ? `'${text}` : text;
+    return /^[\s]*[=+@]|^[\s]*-(?!\d+(?:\.\d+)?$)/.test(text) ? "'" + text : text;
   }
 
   function downloadBlob(blob, name) {
