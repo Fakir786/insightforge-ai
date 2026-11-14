@@ -1,0 +1,7 @@
+customer_id,name,country,amount,email
+1001,Ana Silva,Mozambique,120.50,ana@example.com
+1002,Joao M.,Portugal,80.00,joao@example.com
+1002,Joao M.,Portugal,80.00,joao@example.com
+1003,  Maria  ,India,,maria@example.com
+
+1004,Peter,Kenya,45.25,
