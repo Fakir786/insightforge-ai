@@ -98,7 +98,8 @@
             const fatal = result.errors.find((error) => error.code !== "TooManyFields");
             if (fatal) return reject(new Error(`Could not read CSV: ${fatal.message}`));
           }
-          const matrix = result.data.filter((row) => Array.isArray(row) && row.some((value) => !isBlank(value)));
+          const matrix = result.data.filter((row) => Array.isArray(row)).map((row) => row.slice());
+          while (matrix.length > 1 && rowIsEmpty(matrix[matrix.length - 1])) matrix.pop();
           if (matrix.length < 2) return reject(new Error("The CSV must contain a header row and at least one data row."));
           const headers = matrix[0].map((value, index) => {
             const text = cellText(value).replace(/^\uFEFF/, "").trim();
@@ -118,7 +119,8 @@
     const workbook = XLSX.read(buffer, { type: "array", cellDates: false });
     const sheetName = workbook.SheetNames[0];
     if (!sheetName) throw new Error("This Excel file does not contain a worksheet.");
-    const matrix = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1, defval: "", raw: false, blankrows: false });
+    const matrix = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1, defval: "", raw: false, blankrows: true });
+    while (matrix.length > 1 && rowIsEmpty(matrix[matrix.length - 1])) matrix.pop();
     if (matrix.length < 2) throw new Error("The first worksheet must contain a header row and at least one data row.");
     const width = Math.max(...matrix.map((row) => row.length));
     const headers = Array.from({ length: width }, (_, index) => {
