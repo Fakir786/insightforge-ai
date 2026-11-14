@@ -143,3 +143,6 @@ h2 { margin: 0; color: #243b55; font: 700 12px/1.2 Manrope, "Segoe UI", sans-ser
   .insights-grid { grid-template-columns: 1fr; }
   .date-controls { gap: 5px; }
 }
+
+.tool-link { display: inline-flex; margin-top: 8px; color: #2468a5; font-size: 11px; font-weight: 700; text-decoration: none; }
+.tool-link:hover { text-decoration: underline; }
